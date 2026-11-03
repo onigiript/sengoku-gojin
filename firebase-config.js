@@ -4,7 +4,7 @@
 window.FIREBASE_CONFIG = {
   apiKey: "AIzaSyBmCp-8yYRUHmdBu716IMZM5gnUqTc5Zas",
   authDomain: "sengoku-gojin.firebaseapp.com",
-  databaseURL: "",
+  databaseURL: "https://sengoku-gojin-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "sengoku-gojin",
   storageBucket: "sengoku-gojin.firebasestorage.app",
   messagingSenderId: "325087478214",
