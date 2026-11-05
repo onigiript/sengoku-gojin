@@ -105,16 +105,16 @@
 <section class="screen" id="landing"><button id="backToTitle" class="secondary landing-back">← タイトルに戻る</button><div class="panel"><h2>オンライン対戦</h2><p>一人が対戦部屋を作り、もう一人が6桁の部屋番号で参加します。</p><div class="bar"><button id="create">対戦部屋を作る</button><input id="code" inputmode="numeric" maxlength="6" placeholder="6桁の部屋番号" aria-label="部屋番号"><button class="secondary" id="join">参加する</button></div><p id="landingError" class="alert"></p></div></section>
 <section class="screen info-screen" id="rules"><div class="info-top"><button class="secondary info-back">← タイトルに戻る</button><h2>📜 遊び方</h2></div>
 <div class="panel"><h3>🏆 勝利条件</h3><ol><li>相手の大将を撃破する</li><li>敵陣の退き口に進軍する</li><li>左・中央・右の3要所をすべて制圧する</li></ol><p>いずれか一つを達成すると勝利です。要所3つの制圧は、その瞬間に勝敗が決まります。</p></div>
-<div class="panel"><h3>⚔️ 対戦準備</h3><ol><li>一人が6桁の対戦部屋を作り、もう一人が参加する</li><li>左・中・右それぞれの武将を、7人から重複なしで選ぶ</li><li>基本部隊9枚と特殊部隊1枚の合計10枚を、3武将に自由に配属する（各武将に最低1枚）</li><li>大将を指定して双方「この編成で出陣」を押す</li></ol><p>相手の武将名と配属部隊数は、初めて合戦（遠射を含む）が成立するまで非公開です。進軍しているだけでは公開されません。接敵後は武将名と残存部隊数を表示し、兵種の内訳は戦闘で使われるまで非公開とします。大将の印は相手に表示しません。</p></div>
+<div class="panel"><h3>⚔️ 対戦準備</h3><ol><li>一人が6桁の対戦部屋を作り、もう一人が参加する</li><li>左・中・右それぞれの武将を、7人から重複なしで選ぶ</li><li>基本部隊9枚と特殊部隊1枚の合計10枚を、3武将に自由に配属する（各武将に最低1枚）</li><li>大将を指定して双方「この編成で出陣」を押す</li></ol><p>相手の武将名と配属部隊数は、初めて合戦（遠射を含む）が成立するまで非公開です。進軍しているだけでは公開されません。接敵後は武将名と残存部隊数を表示し、兵種の内訳は戦闘で使われるまで非公開とします。大将は両軍とも👑で公開します。配下の部隊が全滅した武将は盤面から消えます。</p></div>
 <div class="panel"><h3>🔄 手番と進軍</h3><p>先攻・後攻は試合ごとにランダム抽選。1ラウンドに両軍が交互に3回ずつ行動し、次ラウンドは先手が交代します。各武将が行動できるのは1ラウンドにつき1回です。</p><p>自分の武将をタップし、上下左右の隣の空きマスをタップすると進軍します。武将を選んで「その場で待機」もできます。敵武将のマスをタップすると合戦を仕掛けます。</p></div>
 <div class="panel"><h3>🛡️ 合戦のしくみ</h3><p>攻撃側が部隊を選び、次に防御側が部隊を選びます。戦闘力は兵種の基本値＋武将の対応Lv＋三すくみ＋地形補正＋能力補正で計算します。</p><div class="info-row">🐎 騎馬 → 槍に強い<br>🛡️ 槍 → 鉄砲に強い<br>💥 鉄砲 → 騎馬に強い</div><p>有利なら＋2、不利なら−2です。通常戦闘のダメージは勝者1・敗者2、引き分けなら双方1です。部隊のHPが0になると敗走。率いる部隊が全滅すると武将が撃破されます。</p></div>
 <div class="panel"><h3>⚡ 挟撃B</h3><p>攻撃する武将のほかに、敵の上下左右に隣接する味方武将がいると挟撃成立です。一直線の挟み込みだけでなく、L字型も対象です。原則として攻撃側は無傷で勝利し、防御側は2ダメージを受けます。</p><p>ただし本多忠勝は最初の挟撃を「蜻蛉切」で通常戦闘に戻し、以後の挟撃では被害を軽減します。</p></div>
 <div class="panel"><h3>⛰️ 地形と特殊能力</h3><p>地形には山地・森林・平野・参道・退き口・要所があります。兵種によって得意な地形が異なります。武将と特殊部隊の能力は「武将・部隊一覧」で確認できます。</p><p>🏹弓兵：遠射。🥷忍者：敵越え進軍。📜軍師：戦闘力＋1と包囲看破。⚔️精鋭隊：精鋭の一撃と挟撃被害軽減。</p><p>徳川家康の「堅陣」「三河武士の踏ん張り」も利用可能です。</p><p class="mini">※ほかの武将の一部必殺技はまだ未実装です。ゲーム内に表示される発動ボタンが実際に使用できる能力です。</p></div></section>
 <section class="screen info-screen" id="catalog"><div class="info-top"><button class="secondary info-back">← タイトルに戻る</button><h2>🏯 武将・部隊一覧</h2></div><div class="directory-tabs"><button class="on" data-directory-tab="generals">武将7名</button><button data-directory-tab="basic">基本部隊</button><button data-directory-tab="special">特殊部隊</button></div><div id="directoryItems"></div></section>
-<section class="screen" id="game"><div class="panel"><div class="row"><div><span class="badge" id="roomLabel">部屋</span> <span class="mini" id="roleLabel"></span></div><div class="room-controls"><button class="secondary" id="effectsToggle" title="効果音のオン・オフ">🔊 効果音</button><button class="secondary" id="copy">部屋番号をコピー</button></div></div><div class="status" id="headline">対戦相手を待っています…</div><div id="setup" class="hidden"><h2>出陣編成</h2><p class="mini">左・中・右の武将を選び、10枚すべてを配属。基本部隊9枚＋特殊部隊1枚。各武将に最低1枚。部隊数は合戦まで相手に秘密です。</p><div id="formation"></div><label>大将 <select id="chief"></select></label><div id="allocation"></div><p id="formationStatus" class="mini"></p><button id="ready">この編成で出陣</button></div></div>
-<div id="pendingBattleStage" class="panel pending-battle-stage hidden" aria-live="polite"></div><div class="panel"><div class="row"><span id="redName" class="side">赤軍</span><span id="turnLabel" class="badge">第1ラウンド</span><span id="blueName" class="side blue">青軍</span></div><div style="height:9px"></div><div id="board" class="board"></div><p class="mini">赤軍は下から、青軍は上から。左右の武将は山地スタート。黄色いマスの左（上から4行目）・中央・右（上から2行目）の3要所をすべて制圧すると即勝利。相手の武将名・部隊数は初めて合戦（遠射を含む）するまで秘密です。大将の印も相手には公開されません。自軍の武将を選んで隣のマスを押します。</p></div>
+<section class="screen" id="game"><div class="panel"><div class="row"><div><span class="badge" id="roomLabel">部屋</span> <span class="mini" id="roleLabel"></span></div><div class="room-controls"><button class="secondary" id="copy">部屋番号をコピー</button></div></div><div class="status" id="headline">対戦相手を待っています…</div><div id="setup" class="hidden"><h2>出陣編成</h2><p class="mini">左・中・右の武将を選び、10枚すべてを配属。基本部隊9枚＋特殊部隊1枚。各武将に最低1枚。部隊数は合戦まで相手に秘密です。</p><div id="formation"></div><label>大将 <select id="chief"></select></label><div id="allocation"></div><p id="formationStatus" class="mini"></p><button id="ready">この編成で出陣</button></div></div>
+<div id="pendingBattleStage" class="panel pending-battle-stage hidden" aria-live="polite"></div><div class="panel"><div class="row"><span id="redName" class="side">赤軍</span><span id="turnLabel" class="badge">第1ラウンド</span><span id="blueName" class="side blue">青軍</span></div><div style="height:9px"></div><div id="board" class="board"></div><p class="mini">赤軍は下から、青軍は上から。左右の武将は山地スタート。黄色いマスの左（上から4行目）・中央・右（上から2行目）の3要所をすべて制圧すると即勝利。相手の武将名・部隊数は初めて合戦（遠射を含む）するまで秘密です。ただし大将は双方に👑で表示します。配下の部隊が全滅した武将は盤面から消えます。自軍の武将を選んで隣のマスを押します。</p></div>
 <div class="panel"><h2 id="actionTitle">行動と戦闘</h2><div id="actionText" class="status">武将を選んでください。</div><div id="unitChoices" class="cards" style="margin-top:8px"></div><div class="bar" style="margin-top:8px"><button id="stay" class="secondary">その場で待機</button><button id="confirm" class="hidden">この部隊で戦う</button></div></div>
-<div class="panel"><h2>戦況</h2><div id="score" class="stats"></div><h2 style="margin-top:12px">合戦記録</h2><ol id="log" class="log"></ol></div><p class="footnote">対戦ルール：武将名と部隊数は接敵まで非公開。大将の印は相手に非公開。未実装の必殺技があります。現在はカジュアル対戦用で、Firebase内部の秘密データ分離は未対応です。</p></section>
+<div class="panel"><h2>戦況</h2><div id="score" class="stats"></div><h2 style="margin-top:12px">合戦記録</h2><ol id="log" class="log"></ol></div><p class="footnote">対戦ルール：武将名と部隊数は接敵まで非公開。大将の👑は双方に公開。未実装の必殺技があります。現在はカジュアル対戦用で、Firebase内部の秘密データ分離は未対応です。</p></section>
 <div id="battlePopup" class="battle-popup hidden" role="dialog" aria-modal="true" aria-label="合戦結果"><div class="battle-card"><div class="battle-kicker">⚔️ 戦国五陣・合戦結果 ⚔️</div><div class="battle-vs"><div class="battle-side attacking"><div class="card-image-frame"><div id="battleAtkArt" class="sengoku-card-art" aria-label="攻撃武将のカード画像">⚔️</div><div class="sengoku-card-ribbon">攻撃武将</div></div><div id="battleAtk">攻撃側</div><div id="battleAtkUnit" class="battle-unit-row"></div><strong id="battleAtkPower"></strong></div><div class="versus">VS</div><div class="battle-side defending"><div class="card-image-frame"><div id="battleDefArt" class="sengoku-card-art" aria-label="防御武将のカード画像">🛡️</div><div class="sengoku-card-ribbon">防御武将</div></div><div id="battleDef">防御側</div><div id="battleDefUnit" class="battle-unit-row"></div><strong id="battleDefPower"></strong></div></div><div id="battleSkills" class="battle-skills"></div><div id="battleDamage" class="battle-damage"></div><p class="battle-tip">以前作成したカードの絵を表示します。絵が出ないときは画像素材の登録をご確認ください。</p><button id="battleClose" class="battle-close">合戦結果を確認 ✓</button></div></div><div id="generalDetail" class="battle-popup hidden" role="dialog" aria-modal="true" aria-label="武将の能力"><div class="battle-card general-detail-card"><h2 id="detailName">武将情報</h2><div id="detailArt" class="detail-card-art sengoku-card-art">⚔️</div><div id="detailStats" class="general-stats"></div><div id="detailAbility" class="info-row"></div><div class="detail-footer"><button id="detailAttack" class="hidden">⚔️ この武将に合戦を仕掛ける</button><button id="detailClose" class="secondary">盤面に戻る</button></div></div></div></main>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script><script src="firebase-config.js"></script>
 <script>
@@ -128,7 +128,7 @@ const names={objective:'要所',gate:'退き口',mountain:'山地',sando:'参道
 const opposite=s=>s==='red'?'blue':'red';const inside=(r,c)=>r>=0&&r<5&&c>=0&&c<7;
 function createState(uid,code){const toss=new Uint32Array(1);crypto.getRandomValues(toss);const firstSide=toss[0]%2===0?'red':'blue';let red={uid,ready:false,chief:0,gs:[],reserve:'鉄砲',};return {code,red,blue:null,firstSide,round:1,step:0,objectives:{'1':'neutral','3':'neutral','5':'neutral'},pending:null,winner:null,log:['赤軍が対戦部屋を作りました。','先攻抽選結果：'+(firstSide==='red'?'赤軍':'青軍')+'が第1ラウンド先手です。']}}
 function makeGs(side,f){let cols=[0,3,6],r=side==='red'?4:0;f=f||{chosen:[0,1,2],armies:[['騎馬','騎馬','槍','騎馬'],['鉄砲','鉄砲','軍師'],['槍','槍','鉄砲']]};return f.chosen.map((gi,i)=>({id:i,gi,position:[r,cols[i]],revealed:false,numberRevealed:false,acted:false,hondaGuardUsed:false,ninjaUsed:false,strategistUsed:false,tenacityUsed:false,army:f.armies[i].map(type=>({type,hp:generals[gi].hp,used:false,burstUsed:false}))}))}
-let db=null,auth=null,uid=null,room=null,side=null,unsub=null,state=null,sel=null,demo=false,local=null,formInit=false,specialMode=null,attackTarget=null,counterChoice=false,counterKey='',seenBattleKey='',seenEffectKey='',soundOn=true,sfxContext=null,spriteLoaded=false;
+let db=null,auth=null,uid=null,room=null,side=null,unsub=null,state=null,sel=null,demo=false,local=null,formInit=false,specialMode=null,attackTarget=null,counterChoice=false,counterKey='',seenBattleKey='',seenEffectKey='',spriteLoaded=false;
 const positions=['左','中','右'];
 function fillSel(el,options,value){el.innerHTML=options.map(([v,label])=>'<option value="'+v+'"'+(String(v)===String(value)?' selected':'')+'>'+label+'</option>').join('')}
 function buildForm(){if(formInit)return;formInit=true;const root=$('formation');root.innerHTML='';const defaults=side==='blue'?[2,3,5]:[0,1,4];for(let i=0;i<3;i++){const block=document.createElement('div');block.className='formation-army';block.innerHTML='<b>'+positions[i]+'の武将</b>　<label><select class="pick-general"></select></label>';root.append(block);fillSel(block.querySelector('select'),generals.map((g,j)=>[j,g.name+' 騎'+g.lv[0]+'/鉄'+g.lv[1]+'/槍'+g.lv[2]+'/HP'+g.hp]),defaults[i]);}fillSel($('chief'),positions.map((v,i)=>[i,v+'の武将']),0);
@@ -145,10 +145,10 @@ function myTurn(s){const first=s.firstSide==='blue'?'blue':'red';const roundFirs
 function render(){if(!state)return;let s=state;s.objectives=s.objectives||{'1':'neutral','3':'neutral','5':'neutral'};let both=s.red&&s.blue,ready=both&&s.red.ready&&s.blue.ready;const whose=myTurn(s);$('roomLabel').textContent='部屋 '+room;$('roleLabel').textContent=side==='red'?'あなたは赤軍':'あなたは青軍';$('turnLabel').textContent='第'+s.round+'ラウンド・先手'+(s.round%2===1?(s.firstSide==='blue'?'青':'赤'):(s.firstSide==='blue'?'赤':'青'));$('redName').textContent='🔴 赤軍 '+(s.red.ready?'準備済':'編成中');$('blueName').textContent='🔵 青軍 '+(!s.blue?'未参加':s.blue.ready?'準備済':'編成中');
 $('setup').classList.toggle('hidden',!both||s[side].ready);if(both&&!s[side].ready)buildForm();$('board').closest('.panel').classList.toggle('hidden',!ready);$('actionTitle').closest('.panel').classList.toggle('hidden',!ready);$('score').closest('.panel').classList.toggle('hidden',!ready);
 $('headline').textContent=s.winner?(s.winner===side?'🏆 あなたの勝利！':'相手の勝利！')+' '+(s.reason||''):!both?'相手の参加を待っています…':!ready?'双方の編成確定を待っています。':s.pending?`戦闘中：${s.pending.defender===side?'防御する部隊を選んでください':'相手の部隊選択待ち'}`:whose===side?'あなたの手番です。武将を選んでください。':'相手の手番です。';
-renderPendingBattleStage(s);handleNonBattleEffect(s);showLastBattle(s);
+renderPendingBattleStage(s);showLastBattle(s);
 $('stay').disabled=!ready||s.winner||s.pending||whose!==side||sel===null;$('confirm').classList.add('hidden');
-const board=$('board');board.innerHTML='';for(let r=0;r<5;r++)for(let c=0;c<7;c++){let cell=document.createElement('button');cell.className='cell '+terrain(r,c);let obj=territory(r,c),occ=null;if(both)for(const sw of ['red','blue'])for(let g of (s[sw].gs||[])){if(g.position[0]===r&&g.position[1]===c)occ={g,sw}};if(sel!==null&&ready&&!s.pending&&whose===side&&!s.winner){const g=s[side].gs[sel];if(g){if(g.position[0]===r&&g.position[1]===c)cell.classList.add('selected');if(specialMode==='bow'){if(occ&&occ.sw!==side&&isRayClear(s,g.position,[r,c]))cell.classList.add('enemyLegal')}else if(specialMode==='ninja'){if(inside(r,c)&&dist(g.position,[r,c])===2&&(r===g.position[0]||c===g.position[1])&&!occ){const mid=boardOcc(s,(g.position[0]+r)/2,(g.position[1]+c)/2);if(mid&&mid.sw!==side)cell.classList.add('legal')}}else if(dist(g.position,[r,c])===1)cell.classList.add(occ&&occ.sw!==side?'enemyLegal':'legal')}}
-let terrainLabel=names[terrain(r,c)];if(obj)terrainLabel=obj==='1'?'左要所':obj==='3'?'中央要所':'右要所';cell.innerHTML=`<span class="ground">${terrainLabel}${obj&&['red','blue'].includes(s.objectives[obj])?' '+(s.objectives[obj]==='red'?'🔴':'🔵'):''}</span>`;if(occ){const own=occ.sw===side,met=!!occ.g.numberRevealed,identityVisible=own||met;const chiefVisible=own&&occ.g.id===s[occ.sw].chief;let p=document.createElement('span');p.className='piece '+(occ.sw==='blue'?'blue':'');p.textContent=(occ.sw==='red'?'赤':'青')+(chiefVisible?'👑':'')+(identityVisible?generals[occ.g.gi].name:'❓')+(identityVisible?' '+occ.g.army.filter(u=>u.hp>0).length+'隊':'');cell.append(p)}cell.addEventListener('click',()=>clickCell(r,c,occ));board.append(cell)}
+const board=$('board');board.innerHTML='';for(let r=0;r<5;r++)for(let c=0;c<7;c++){let cell=document.createElement('button');cell.className='cell '+terrain(r,c);let obj=territory(r,c),occ=null;if(both)for(const sw of ['red','blue'])for(let g of (s[sw].gs||[])){if(!g.defeated&&g.army?.some(u=>u.hp>0)&&g.position[0]===r&&g.position[1]===c)occ={g,sw}};if(sel!==null&&ready&&!s.pending&&whose===side&&!s.winner){const g=s[side].gs[sel];if(g){if(g.position[0]===r&&g.position[1]===c)cell.classList.add('selected');if(specialMode==='bow'){if(occ&&occ.sw!==side&&isRayClear(s,g.position,[r,c]))cell.classList.add('enemyLegal')}else if(specialMode==='ninja'){if(inside(r,c)&&dist(g.position,[r,c])===2&&(r===g.position[0]||c===g.position[1])&&!occ){const mid=boardOcc(s,(g.position[0]+r)/2,(g.position[1]+c)/2);if(mid&&mid.sw!==side)cell.classList.add('legal')}}else if(dist(g.position,[r,c])===1)cell.classList.add(occ&&occ.sw!==side?'enemyLegal':'legal')}}
+let terrainLabel=names[terrain(r,c)];if(obj)terrainLabel=obj==='1'?'左要所':obj==='3'?'中央要所':'右要所';cell.innerHTML=`<span class="ground">${terrainLabel}${obj&&['red','blue'].includes(s.objectives[obj])?' '+(s.objectives[obj]==='red'?'🔴':'🔵'):''}</span>`;if(occ){const own=occ.sw===side,met=!!occ.g.numberRevealed,identityVisible=own||met;const chiefVisible=occ.g.id===s[occ.sw].chief;let p=document.createElement('span');p.className='piece '+(occ.sw==='blue'?'blue':'');p.textContent=(occ.sw==='red'?'赤':'青')+(chiefVisible?'👑':'')+(identityVisible?generals[occ.g.gi].name:'❓')+(identityVisible?' '+occ.g.army.filter(u=>u.hp>0).length+'隊':'');cell.append(p)}cell.addEventListener('click',()=>clickCell(r,c,occ));board.append(cell)}
 let my=s[side];$('score').innerHTML=['1','3','5'].map(k=>`<div class="stat">${{1:'左',3:'中央',5:'右'}[k]}要所<br><b>${!['red','blue'].includes(s.objectives[k])?'中立':s.objectives[k]==='red'?'🔴赤':'🔵青'}</b></div>`).join('');$('log').innerHTML=(s.log||[]).slice(-12).reverse().map(l=>'<li>'+escapeHtml(l)+'</li>').join('');
 const choices=$('unitChoices');choices.innerHTML='';
 if(s.pending){const p=s.pending;if(p.defender===side){const g=s[side].gs[p.target];const key=[s.code,s.round,s.step,p.source,p.target,p.kind,p.phase].join(':');if(counterKey!==key){counterChoice=false;counterKey=key}
@@ -194,17 +194,17 @@ function applyCardImages(root){
   root.querySelectorAll('[data-general-picture]').forEach(el=>setCardPicture(el,Number(el.dataset.generalPicture),'⚔️'));
   root.querySelectorAll('[data-unit-picture]').forEach(el=>setCardPicture(el,spriteIndexForUnit(el.dataset.unitPicture),icons[units.indexOf(el.dataset.unitPicture)]||'🛡️'));
 }
+// カードのVS演出は両陣営が部隊を選び、必殺技の使用も確定した後の結果画面でのみ開く。
 function renderPendingBattleStage(s){
-  const el=$('pendingBattleStage'),p=s?.pending;
-  if(!el||!p||!s[p.attacker]||!s[p.defender]){if(el)el.classList.add('hidden');return}
-  const ag=s[p.attacker].gs[p.source],dg=s[p.defender].gs[p.target];
-  if(!ag||!dg)return;
-  const attackType=p.kind==='ranged'?'弓兵':ag.army[p.unit]?.type||'部隊選択中';
-  const defendType=p.phase==='laststand'?dg.army[p.defenseIndex]?.type:null;
-  const title=p.phase==='laststand'?'🛡️ 最後の踏ん張り！':p.kind==='ranged'?'🏹 遠射！':'⚔️ 合戦開始！';
-  el.classList.remove('hidden');
-  el.innerHTML='<div class="pending-battle-heading">'+title+'</div><div class="battle-vs"><div class="battle-side attacking"><div class="card-image-frame"><div class="sengoku-card-art" data-general-picture="'+ag.gi+'"></div></div><b>'+escapeHtml(generals[ag.gi].name)+'</b><div class="battle-unit-row">'+cardMiniHTML(attackType)+'</div></div><b class="versus">VS</b><div class="battle-side defending"><div class="card-image-frame"><div class="sengoku-card-art" data-general-picture="'+dg.gi+'"></div></div><b>'+escapeHtml(generals[dg.gi].name)+'</b><div class="battle-unit-row">'+(defendType?cardMiniHTML(defendType):'<span>🛡️ 防御部隊を選択中</span>')+'</div></div></div><p class="pending-battle-note">戦闘中の選択は、下の「行動と戦闘」で行ってください。</p>';
-  applyCardImages(el);
+ const el=$('pendingBattleStage'),p=s?.pending;
+ if(!el)return;
+ if(!p){el.classList.add('hidden');return}
+ el.classList.remove('hidden');
+ const description=p.phase==='laststand'
+  ?'防御側が最後の必殺技を選択しています。'
+  :p.kind==='ranged'?'防御側が遠射を受ける部隊を選択しています。'
+  :'攻撃側の部隊選択が完了しました。防御側の部隊と能力が決まるまでお待ちください。';
+ el.innerHTML='<div class="pending-battle-heading">⚔️ 合戦の準備中</div><p class="pending-battle-note">'+description+'</p><p class="mini">双方の部隊選択が確定すると、武将カードのVS画面を表示します。</p>';
 }
 function closeGeneralInfo(){$('generalDetail').classList.add('hidden')}
 function inspectGeneral(occ){
@@ -217,57 +217,13 @@ function inspectGeneral(occ){
   $('detailArt').dataset.generalPicture=String(g.gi);setCardPicture($('detailArt'),spriteIndexForGeneral(g.gi),'⚔️');
   stats.innerHTML=[['騎馬',data.lv[0]],['鉄砲',data.lv[1]],['槍',data.lv[2]],['カードHP',data.hp]].map(([name,value])=>'<div class="general-stat"><b>'+value+'</b><span>'+name+'</span></div>').join('');
   const ability=generalDetails[g.gi]||['固有能力','情報なし','情報なし'];
-  $('detailAbility').innerHTML='<b>残存部隊 '+alive.length+'隊 ／ 残存HP合計 '+remainingHp+'</b><p>'+escapeHtml(ability[0])+'：'+escapeHtml(ability[1])+'</p><p>必殺技：'+escapeHtml(ability[2])+'</p><p class="mini">相手の部隊の兵種内訳・使用済み状態・大将指定は非公開です。</p>';
+  $('detailAbility').innerHTML='<b>残存部隊 '+alive.length+'隊 ／ 残存HP合計 '+remainingHp+'</b><p>'+escapeHtml(ability[0])+'：'+escapeHtml(ability[1])+'</p><p>必殺技：'+escapeHtml(ability[2])+'</p><p class="mini">相手の部隊の兵種内訳・使用済み状態は非公開です。大将は盤面の👑で確認できます。</p>';
   const canAttack=!own&&state.red?.ready&&state.blue?.ready&&!state.winner&&!state.pending&&sel!==null&&state[side].gs[sel]&&!state[side].gs[sel].acted&&myTurn(state)===side&&dist(state[side].gs[sel].position,g.position)===1;
   $('detailAttack').classList.toggle('hidden',!canAttack);
   $('detailAttack').onclick=()=>{closeGeneralInfo();if(canAttack)chooseAttack(sel,g.id)};
   $('generalDetail').classList.remove('hidden');
 }
 $('detailClose').onclick=closeGeneralInfo;
-
-// Web Audioによるオリジナル効果音。外部ファイル・自動再生への依存なし。
-function audioUnlock(){
-  if(!soundOn)return;
-  try{const Constructor=window.AudioContext||window.webkitAudioContext;if(!Constructor)return;if(!sfxContext)sfxContext=new Constructor();if(sfxContext.state==='suspended')sfxContext.resume().catch(()=>{})}catch(_){}
-}
-function soundNote(freq,offset,duration,wave='triangle',volume=.1){
-  if(!soundOn||!sfxContext||sfxContext.state!=='running')return;
-  const t=sfxContext.currentTime+offset;
-  const osc=sfxContext.createOscillator(),gain=sfxContext.createGain();
-  osc.type=wave;osc.frequency.setValueAtTime(freq,t);
-  gain.gain.setValueAtTime(.0001,t);
-  gain.gain.exponentialRampToValueAtTime(Math.max(.001,volume),t+.018);
-  gain.gain.exponentialRampToValueAtTime(.0001,t+duration);
-  osc.connect(gain);gain.connect(sfxContext.destination);
-  osc.start(t);osc.stop(t+duration+.025);
-}
-function playWarSound(kind,offset=0){
-  if(!soundOn)return;audioUnlock();
-  if(kind==='flank'){
-    soundNote(146.8,offset,.22,'sawtooth',.075);
-    soundNote(98,offset+.16,.32,'triangle',.12);
-    soundNote(622,offset+.37,.30,'triangle',.06);
-  }else{
-    soundNote(261.6,offset,.15,'triangle',.08);
-    soundNote(392,offset+.13,.18,'triangle',.095);
-    soundNote(587.3,offset+.30,.30,'sine',.09);
-    soundNote(783.9,offset+.47,.38,'triangle',.07);
-  }
-}
-function battleSfx(b){
-  // 実際の技発動時の音は、両端末に同期するlastEffectで再生する。
-  // 合戦結果を何度表示しても重複再生しない。
-}
-function handleNonBattleEffect(s){
-  const e=s?.lastEffect;if(!e||!e.seq)return;
-  const key=(s.code||room)+':'+e.seq;
-  if(seenEffectKey===key)return;
-  seenEffectKey=key;
-  if(e.kind==='rare'||e.kind==='both')playWarSound('rare');
-  if(e.kind==='flank'||e.kind==='both')playWarSound('flank',e.kind==='both'?.33:0);
-}
-document.addEventListener('pointerdown',audioUnlock,{passive:true});
-$('effectsToggle').onclick=()=>{soundOn=!soundOn;$('effectsToggle').textContent=soundOn?'🔊 効果音':'🔇 消音中';if(soundOn){audioUnlock();playWarSound('rare')}};
 
 function showLastBattle(s){
  if(!s.lastBattle||!s.lastBattle.seq)return;
@@ -292,7 +248,7 @@ function showLastBattle(s){
  $('battlePopup').classList.toggle('flank-event',!!b.flank);
  $('battlePopup').classList.toggle('special-event',skills.some(v=>v!=='遠射'));
  $('battlePopup').classList.remove('hidden');
- battleSfx(b);
+
 }
 $('battleClose').onclick=()=>$('battlePopup').classList.add('hidden');
 function addActionButton(label,action,secondary=false){const b=document.createElement('button');b.className=secondary?'secondary special-button':'special-button';b.textContent=label;b.onclick=action;$('unitChoices').append(b)}
