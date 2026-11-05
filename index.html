@@ -226,7 +226,8 @@ function inspectGeneral(occ){
 $('detailClose').onclick=closeGeneralInfo;
 
 function showLastBattle(s){
- if(!s.lastBattle||!s.lastBattle.seq)return;
+ // 今回の両陣営の選択が未確定なら、前回の合戦結果も再表示しない。
+ if(s.pending||!s.lastBattle||!s.lastBattle.seq)return;
  const k=(s.code||room)+':'+s.lastBattle.seq;
  if(seenBattleKey===k)return;
  seenBattleKey=k;
