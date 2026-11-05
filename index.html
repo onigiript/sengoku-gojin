@@ -80,6 +80,13 @@
 .mini-card-art{width:56px;height:37px;border:1px solid #d1b178;border-radius:4px;flex:0 0 auto;background-color:#1c2934;background-size:cover}
 .mini-card-art.loaded{background-size:300% 500%}
 .battle-tip{font-size:10px;opacity:.65;margin:6px auto}
+.mini-card-art.loaded{font-size:0;color:transparent}
+@keyframes sengokuBattleIn{0%{opacity:0;transform:scale(.92)}65%{opacity:1;transform:scale(1.018)}100%{transform:scale(1)}}
+.battle-popup:not(.hidden)>.battle-card{animation:sengokuBattleIn .32s ease-out}
+.battle-popup.flank-event .battle-skills{background:linear-gradient(120deg,#922b2b,#a86f28);box-shadow:0 0 17px #d9a43b63}
+.battle-popup.special-event .battle-kicker{color:#ffe3a2;text-shadow:0 0 11px #eec064}
+@media(prefers-reduced-motion:reduce){.battle-popup:not(.hidden)>.battle-card{animation:none}}
+
 .battle-skills:not(:empty){padding:9px;color:#fbe098;background:#5d3830;border-radius:8px;font-size:19px}
 .battle-card .battle-side{padding:7px 5px}
 .battle-card .battle-vs{grid-template-columns:minmax(0,1fr) 32px minmax(0,1fr)}
@@ -282,6 +289,8 @@ function showLastBattle(s){
  let outcome='遠射成功！';
  if(b.attackPower!=null&&b.defensePower!=null)outcome=b.flank?'⚔️ 挟撃成功！':b.attackPower>b.defensePower?'攻撃側の勝利！':b.attackPower<b.defensePower?'防御側の勝利！':'引き分け！';
  $('battleDamage').textContent=outcome+'　攻撃側：−'+b.attackDamage+'HP ／ 防御側：−'+b.defenseDamage+'HP';
+ $('battlePopup').classList.toggle('flank-event',!!b.flank);
+ $('battlePopup').classList.toggle('special-event',skills.some(v=>v!=='遠射'));
  $('battlePopup').classList.remove('hidden');
  battleSfx(b);
 }
