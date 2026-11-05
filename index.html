@@ -121,7 +121,7 @@ const names={objective:'要所',gate:'退き口',mountain:'山地',sando:'参道
 const opposite=s=>s==='red'?'blue':'red';const inside=(r,c)=>r>=0&&r<5&&c>=0&&c<7;
 function createState(uid,code){const toss=new Uint32Array(1);crypto.getRandomValues(toss);const firstSide=toss[0]%2===0?'red':'blue';let red={uid,ready:false,chief:0,gs:[],reserve:'鉄砲',};return {code,red,blue:null,firstSide,round:1,step:0,objectives:{'1':'neutral','3':'neutral','5':'neutral'},pending:null,winner:null,log:['赤軍が対戦部屋を作りました。','先攻抽選結果：'+(firstSide==='red'?'赤軍':'青軍')+'が第1ラウンド先手です。']}}
 function makeGs(side,f){let cols=[0,3,6],r=side==='red'?4:0;f=f||{chosen:[0,1,2],armies:[['騎馬','騎馬','槍','騎馬'],['鉄砲','鉄砲','軍師'],['槍','槍','鉄砲']]};return f.chosen.map((gi,i)=>({id:i,gi,position:[r,cols[i]],revealed:false,numberRevealed:false,acted:false,hondaGuardUsed:false,ninjaUsed:false,strategistUsed:false,tenacityUsed:false,army:f.armies[i].map(type=>({type,hp:generals[gi].hp,used:false,burstUsed:false}))}))}
-let db=null,auth=null,uid=null,room=null,side=null,unsub=null,state=null,sel=null,demo=false,local=null,formInit=false,specialMode=null,attackTarget=null,counterChoice=false,counterKey='',seenBattleKey='';
+let db=null,auth=null,uid=null,room=null,side=null,unsub=null,state=null,sel=null,demo=false,local=null,formInit=false,specialMode=null,attackTarget=null,counterChoice=false,counterKey='',seenBattleKey='',seenEffectKey='',soundOn=true,sfxContext=null,spriteLoaded=false;
 const positions=['左','中','右'];
 function fillSel(el,options,value){el.innerHTML=options.map(([v,label])=>'<option value="'+v+'"'+(String(v)===String(value)?' selected':'')+'>'+label+'</option>').join('')}
 function buildForm(){if(formInit)return;formInit=true;const root=$('formation');root.innerHTML='';const defaults=side==='blue'?[2,3,5]:[0,1,4];for(let i=0;i<3;i++){const block=document.createElement('div');block.className='formation-army';block.innerHTML='<b>'+positions[i]+'の武将</b>　<label><select class="pick-general"></select></label>';root.append(block);fillSel(block.querySelector('select'),generals.map((g,j)=>[j,g.name+' 騎'+g.lv[0]+'/鉄'+g.lv[1]+'/槍'+g.lv[2]+'/HP'+g.hp]),defaults[i]);}fillSel($('chief'),positions.map((v,i)=>[i,v+'の武将']),0);
@@ -138,7 +138,7 @@ function myTurn(s){const first=s.firstSide==='blue'?'blue':'red';const roundFirs
 function render(){if(!state)return;let s=state;s.objectives=s.objectives||{'1':'neutral','3':'neutral','5':'neutral'};let both=s.red&&s.blue,ready=both&&s.red.ready&&s.blue.ready;const whose=myTurn(s);$('roomLabel').textContent='部屋 '+room;$('roleLabel').textContent=side==='red'?'あなたは赤軍':'あなたは青軍';$('turnLabel').textContent='第'+s.round+'ラウンド・先手'+(s.round%2===1?(s.firstSide==='blue'?'青':'赤'):(s.firstSide==='blue'?'赤':'青'));$('redName').textContent='🔴 赤軍 '+(s.red.ready?'準備済':'編成中');$('blueName').textContent='🔵 青軍 '+(!s.blue?'未参加':s.blue.ready?'準備済':'編成中');
 $('setup').classList.toggle('hidden',!both||s[side].ready);if(both&&!s[side].ready)buildForm();$('board').closest('.panel').classList.toggle('hidden',!ready);$('actionTitle').closest('.panel').classList.toggle('hidden',!ready);$('score').closest('.panel').classList.toggle('hidden',!ready);
 $('headline').textContent=s.winner?(s.winner===side?'🏆 あなたの勝利！':'相手の勝利！')+' '+(s.reason||''):!both?'相手の参加を待っています…':!ready?'双方の編成確定を待っています。':s.pending?`戦闘中：${s.pending.defender===side?'防御する部隊を選んでください':'相手の部隊選択待ち'}`:whose===side?'あなたの手番です。武将を選んでください。':'相手の手番です。';
-showLastBattle(s);
+renderPendingBattleStage(s);handleNonBattleEffect(s);showLastBattle(s);
 $('stay').disabled=!ready||s.winner||s.pending||whose!==side||sel===null;$('confirm').classList.add('hidden');
 const board=$('board');board.innerHTML='';for(let r=0;r<5;r++)for(let c=0;c<7;c++){let cell=document.createElement('button');cell.className='cell '+terrain(r,c);let obj=territory(r,c),occ=null;if(both)for(const sw of ['red','blue'])for(let g of (s[sw].gs||[])){if(g.position[0]===r&&g.position[1]===c)occ={g,sw}};if(sel!==null&&ready&&!s.pending&&whose===side&&!s.winner){const g=s[side].gs[sel];if(g){if(g.position[0]===r&&g.position[1]===c)cell.classList.add('selected');if(specialMode==='bow'){if(occ&&occ.sw!==side&&isRayClear(s,g.position,[r,c]))cell.classList.add('enemyLegal')}else if(specialMode==='ninja'){if(inside(r,c)&&dist(g.position,[r,c])===2&&(r===g.position[0]||c===g.position[1])&&!occ){const mid=boardOcc(s,(g.position[0]+r)/2,(g.position[1]+c)/2);if(mid&&mid.sw!==side)cell.classList.add('legal')}}else if(dist(g.position,[r,c])===1)cell.classList.add(occ&&occ.sw!==side?'enemyLegal':'legal')}}
 let terrainLabel=names[terrain(r,c)];if(obj)terrainLabel=obj==='1'?'左要所':obj==='3'?'中央要所':'右要所';cell.innerHTML=`<span class="ground">${terrainLabel}${obj&&['red','blue'].includes(s.objectives[obj])?' '+(s.objectives[obj]==='red'?'🔴':'🔵'):''}</span>`;if(occ){const own=occ.sw===side,met=!!occ.g.numberRevealed,identityVisible=own||met;const chiefVisible=own&&occ.g.id===s[occ.sw].chief;let p=document.createElement('span');p.className='piece '+(occ.sw==='blue'?'blue':'');p.textContent=(occ.sw==='red'?'赤':'青')+(chiefVisible?'👑':'')+(identityVisible?generals[occ.g.gi].name:'❓')+(identityVisible?' '+occ.g.army.filter(u=>u.hp>0).length+'隊':'');cell.append(p)}cell.addEventListener('click',()=>clickCell(r,c,occ));board.append(cell)}
@@ -160,6 +160,108 @@ if(whose===side&&!g.acted&&!g.ninjaUsed&&hasAlive(g,'忍者'))addActionButton(sp
 drawUnitChoices(g,null,{keep:true})}else{$('actionTitle').textContent='行動と戦闘';$('actionText').textContent='自軍の武将をタップして選択してください。'}
 }
 function escapeHtml(t){return String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+// 戦国カード画像は以前制作したカードのイラストから切り出したスプライトを使用。
+// 本多忠勝（7番目）には別途追加された仮イラストを使用。
+const spritePath='sengoku_battle_cards.webp';
+const spriteIndexForGeneral=i=>Number.isInteger(i)&&i>=0&&i<7?i:null;
+const spriteIndexForUnit=type=>{const i=units.indexOf(type);return i>=0?7+i:null};
+const cardPicture=new Image();
+cardPicture.onload=()=>{spriteLoaded=true;if(state)renderPendingBattleStage(state)};
+cardPicture.onerror=()=>{spriteLoaded=false};
+cardPicture.src=spritePath;
+function setCardPicture(el,index,fallback='⚔️'){
+  if(!el)return;
+  el.classList.remove('loaded');
+  el.style.backgroundImage='';
+  el.textContent=fallback;
+  if(spriteLoaded&&index!==null&&index!==undefined&&index>=0&&index<15){
+    const col=index%3,row=Math.floor(index/3);
+    el.classList.add('loaded');
+    el.style.backgroundImage='url("'+spritePath+'")';
+    el.style.backgroundPosition=(col*50)+'% '+(row*25)+'%';
+  }
+}
+function cardMiniHTML(type){return '<span class="mini-card-art" data-unit-picture="'+escapeHtml(type||'')+'"></span><span>'+escapeHtml(type||'部隊選択中')+'</span>'}
+function applyCardImages(root){
+  root.querySelectorAll('[data-general-picture]').forEach(el=>setCardPicture(el,Number(el.dataset.generalPicture),'⚔️'));
+  root.querySelectorAll('[data-unit-picture]').forEach(el=>setCardPicture(el,spriteIndexForUnit(el.dataset.unitPicture),icons[units.indexOf(el.dataset.unitPicture)]||'🛡️'));
+}
+function renderPendingBattleStage(s){
+  const el=$('pendingBattleStage'),p=s?.pending;
+  if(!el||!p||!s[p.attacker]||!s[p.defender]){if(el)el.classList.add('hidden');return}
+  const ag=s[p.attacker].gs[p.source],dg=s[p.defender].gs[p.target];
+  if(!ag||!dg)return;
+  const attackType=p.kind==='ranged'?'弓兵':ag.army[p.unit]?.type||'部隊選択中';
+  const defendType=p.phase==='laststand'?dg.army[p.defenseIndex]?.type:null;
+  const title=p.phase==='laststand'?'🛡️ 最後の踏ん張り！':p.kind==='ranged'?'🏹 遠射！':'⚔️ 合戦開始！';
+  el.classList.remove('hidden');
+  el.innerHTML='<div class="pending-battle-heading">'+title+'</div><div class="battle-vs"><div class="battle-side attacking"><div class="card-image-frame"><div class="sengoku-card-art" data-general-picture="'+ag.gi+'"></div></div><b>'+escapeHtml(generals[ag.gi].name)+'</b><div class="battle-unit-row">'+cardMiniHTML(attackType)+'</div></div><b class="versus">VS</b><div class="battle-side defending"><div class="card-image-frame"><div class="sengoku-card-art" data-general-picture="'+dg.gi+'"></div></div><b>'+escapeHtml(generals[dg.gi].name)+'</b><div class="battle-unit-row">'+(defendType?cardMiniHTML(defendType):'<span>🛡️ 防御部隊を選択中</span>')+'</div></div></div><p class="pending-battle-note">戦闘中の選択は、下の「行動と戦闘」で行ってください。</p>';
+  applyCardImages(el);
+}
+function closeGeneralInfo(){$('generalDetail').classList.add('hidden')}
+function inspectGeneral(occ){
+  if(!occ||!state)return;
+  const own=occ.sw===side,g=occ.g;
+  if(!own&&!g.numberRevealed)return; // 未接敵の敵は能力を明かさない
+  const data=generals[g.gi],stats=$('detailStats');
+  const alive=g.army.filter(u=>u.hp>0),remainingHp=alive.reduce((total,u)=>total+u.hp,0);
+  $('detailName').textContent=(own?'自軍：':'接敵済み：')+data.name;
+  setCardPicture($('detailArt'),spriteIndexForGeneral(g.gi),'⚔️');
+  stats.innerHTML=[['騎馬',data.lv[0]],['鉄砲',data.lv[1]],['槍',data.lv[2]],['カードHP',data.hp]].map(([name,value])=>'<div class="general-stat"><b>'+value+'</b><span>'+name+'</span></div>').join('');
+  const ability=generalDetails[g.gi]||['固有能力','情報なし','情報なし'];
+  $('detailAbility').innerHTML='<b>残存部隊 '+alive.length+'隊 ／ 残存HP合計 '+remainingHp+'</b><p>'+escapeHtml(ability[0])+'：'+escapeHtml(ability[1])+'</p><p>必殺技：'+escapeHtml(ability[2])+'</p><p class="mini">相手の部隊の兵種内訳・使用済み状態・大将指定は非公開です。</p>';
+  const canAttack=!own&&state.red?.ready&&state.blue?.ready&&!state.winner&&!state.pending&&sel!==null&&state[side].gs[sel]&&!state[side].gs[sel].acted&&myTurn(state)===side&&dist(state[side].gs[sel].position,g.position)===1;
+  $('detailAttack').classList.toggle('hidden',!canAttack);
+  $('detailAttack').onclick=()=>{closeGeneralInfo();if(canAttack)chooseAttack(sel,g.id)};
+  $('generalDetail').classList.remove('hidden');
+}
+$('detailClose').onclick=closeGeneralInfo;
+
+// Web Audioによるオリジナル効果音。外部ファイル・自動再生への依存なし。
+function audioUnlock(){
+  if(!soundOn)return;
+  try{const Constructor=window.AudioContext||window.webkitAudioContext;if(!Constructor)return;if(!sfxContext)sfxContext=new Constructor();if(sfxContext.state==='suspended')sfxContext.resume().catch(()=>{})}catch(_){}
+}
+function soundNote(freq,offset,duration,wave='triangle',volume=.1){
+  if(!soundOn||!sfxContext||sfxContext.state!=='running')return;
+  const t=sfxContext.currentTime+offset;
+  const osc=sfxContext.createOscillator(),gain=sfxContext.createGain();
+  osc.type=wave;osc.frequency.setValueAtTime(freq,t);
+  gain.gain.setValueAtTime(.0001,t);
+  gain.gain.exponentialRampToValueAtTime(Math.max(.001,volume),t+.018);
+  gain.gain.exponentialRampToValueAtTime(.0001,t+duration);
+  osc.connect(gain);gain.connect(sfxContext.destination);
+  osc.start(t);osc.stop(t+duration+.025);
+}
+function playWarSound(kind,offset=0){
+  if(!soundOn)return;audioUnlock();
+  if(kind==='flank'){
+    soundNote(146.8,offset,.22,'sawtooth',.075);
+    soundNote(98,offset+.16,.32,'triangle',.12);
+    soundNote(622,offset+.37,.30,'triangle',.06);
+  }else{
+    soundNote(261.6,offset,.15,'triangle',.08);
+    soundNote(392,offset+.13,.18,'triangle',.095);
+    soundNote(587.3,offset+.30,.30,'sine',.09);
+    soundNote(783.9,offset+.47,.38,'triangle',.07);
+  }
+}
+function battleSfx(b){
+  const special=(b.skills||[]).length>0;
+  if(b.flank)playWarSound('flank');
+  if(special)playWarSound('rare',b.flank?.47:0);
+}
+function handleNonBattleEffect(s){
+  const e=s?.lastEffect;if(!e||!e.seq)return;
+  const key=(s.code||room)+':'+e.seq;
+  if(seenEffectKey===key)return;
+  seenEffectKey=key;
+  if(e.kind==='rare')playWarSound('rare');
+}
+document.addEventListener('pointerdown',audioUnlock,{passive:true});
+$('effectsToggle').onclick=()=>{soundOn=!soundOn;$('effectsToggle').textContent=soundOn?'🔊 効果音':'🔇 消音中';if(soundOn){audioUnlock();playWarSound('rare')}};
+
 function showLastBattle(s){if(!s.lastBattle||!s.lastBattle.seq)return;const k=(s.code||room)+':'+s.lastBattle.seq;if(seenBattleKey===k)return;seenBattleKey=k;const b=s.lastBattle;const A=id=>$(id);A('battleAtk').textContent=b.attacker||'攻撃側';A('battleDef').textContent=b.defender||'防御側';A('battleAtkPower').textContent=b.attackPower===null?'遠射':'戦闘力 '+b.attackPower;A('battleDefPower').textContent=b.defensePower===null?'反撃なし':'戦闘力 '+b.defensePower;A('battleSkills').textContent=(b.flank?'⚔️挟撃！　':'')+(b.skills||[]).join('・');A('battleDamage').textContent='攻撃側：−'+b.attackDamage+' HP ／ 防御側：−'+b.defenseDamage+' HP';A('battlePopup').classList.remove('hidden')}
 $('battleClose').onclick=()=>$('battlePopup').classList.add('hidden');
 function addActionButton(label,action,secondary=false){const b=document.createElement('button');b.className=secondary?'secondary special-button':'special-button';b.textContent=label;b.onclick=action;$('unitChoices').append(b)}
