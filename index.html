@@ -109,7 +109,7 @@
 <div class="panel"><h3>🔄 手番と進軍</h3><p>先攻・後攻は試合ごとにランダム抽選。1ラウンドに両軍が交互に3回ずつ行動し、次ラウンドは先手が交代します。各武将が行動できるのは1ラウンドにつき1回です。</p><p>自分の武将をタップし、上下左右の隣の空きマスをタップすると進軍します。武将を選んで「その場で待機」もできます。敵武将のマスをタップすると合戦を仕掛けます。</p></div>
 <div class="panel"><h3>🛡️ 合戦のしくみ</h3><p>攻撃側が部隊を選び、次に防御側が部隊を選びます。戦闘力は兵種の基本値＋武将の対応Lv＋三すくみ＋地形補正＋能力補正で計算します。</p><div class="info-row">🐎 騎馬 → 槍に強い<br>🛡️ 槍 → 鉄砲に強い<br>💥 鉄砲 → 騎馬に強い</div><p>有利なら＋2、不利なら−2です。通常戦闘のダメージは勝者1・敗者2、引き分けなら双方1です。部隊のHPが0になると敗走。率いる部隊が全滅すると武将が撃破されます。</p></div>
 <div class="panel"><h3>⚡ 挟撃B</h3><p>攻撃する武将のほかに、敵の上下左右に隣接する味方武将がいると挟撃成立です。一直線の挟み込みだけでなく、L字型も対象です。原則として攻撃側は無傷で勝利し、防御側は2ダメージを受けます。</p><p>ただし本多忠勝は最初の挟撃を「蜻蛉切」で通常戦闘に戻し、以後の挟撃では被害を軽減します。</p></div>
-<div class="panel"><h3>⛰️ 地形と特殊能力</h3><p>地形には山地・森林・平野・参道・退き口・要所があります。退き口は両軍とも自陣から見て左側の参道位置にあります。兵種によって得意な地形が異なります。武将と特殊部隊の能力は「武将・部隊一覧」で確認できます。</p><p>🏹弓兵：遠射。🥷忍者：敵越え進軍。📜軍師：戦闘力＋1と包囲看破。⚔️精鋭隊：同じ武将の最多兵種（生存枚数×対応武将Lv、最大＋6）で戦闘力が上昇。精鋭の一撃と挟撃被害軽減も使用できます。</p><p>徳川家康の「堅陣」「三河武士の踏ん張り」も利用可能です。</p><p class="mini">※ほかの武将の一部必殺技はまだ未実装です。ゲーム内に表示される発動ボタンが実際に使用できる能力です。</p></div></section>
+<div class="panel"><h3>⛰️ 地形と特殊能力</h3><p>地形には山地・森林・平野・参道・退き口・要所があります。退き口は両軍とも自陣から見て左側の参道位置にあります。兵種によって得意な地形が異なります。武将と特殊部隊の能力は「武将・部隊一覧」で確認できます。</p><p>🏹弓兵：遠射。🥷忍者：敵越え進軍。📜軍師：戦闘力＋1と包囲看破。⚔️精鋭隊：同じ武将の基本部隊の最多兵種が1〜2枚なら＋1、3枚以上なら＋2（生存部隊のみ）。精鋭の一撃と挟撃被害軽減も使用できます。</p><p>徳川家康の「堅陣」「三河武士の踏ん張り」も利用可能です。</p><p class="mini">※ほかの武将の一部必殺技はまだ未実装です。ゲーム内に表示される発動ボタンが実際に使用できる能力です。</p></div></section>
 <section class="screen info-screen" id="catalog"><div class="info-top"><button class="secondary info-back">← タイトルに戻る</button><h2>🏯 武将・部隊一覧</h2></div><div class="directory-tabs"><button class="on" data-directory-tab="generals">武将7名</button><button data-directory-tab="basic">基本部隊</button><button data-directory-tab="special">特殊部隊</button></div><div id="directoryItems"></div></section>
 <section class="screen" id="game"><div class="panel"><div class="row"><div><span class="badge" id="roomLabel">部屋</span> <span class="mini" id="roleLabel"></span></div><div class="room-controls"><button class="secondary" id="copy">部屋番号をコピー</button></div></div><div class="status" id="headline">対戦相手を待っています…</div><div id="setup" class="hidden"><h2>出陣編成</h2><p class="mini">左・中・右の武将を選び、10枚すべてを配属。基本部隊9枚＋特殊部隊1枚。各武将に最低1枚。部隊数は合戦まで相手に秘密です。</p><div id="formation"></div><label>大将 <select id="chief"></select></label><div id="allocation"></div><p id="formationStatus" class="mini"></p><button id="ready">この編成で出陣</button></div></div>
 <div id="pendingBattleStage" class="panel pending-battle-stage hidden" aria-live="polite"></div><div class="panel"><div class="row"><span id="redName" class="side">赤軍</span><span id="turnLabel" class="badge">第1ラウンド</span><span id="blueName" class="side blue">青軍</span></div><div style="height:9px"></div><div id="board" class="board"></div><p class="mini">赤軍は下から、青軍は上から。左右の武将は山地スタート。退き口は各軍から見て左の参道に移動しました（赤軍：下段左側、青軍：上段右側）。黄色いマスの左（上から4行目）・中央・右（上から2行目）の3要所をすべて制圧すると即勝利。相手の武将名・部隊数は初めて合戦（遠射を含む）するまで秘密です。ただし大将は双方に👑で表示します。配下の部隊が全滅した武将は盤面から消えます。自軍の武将を選んで隣のマスを押します。</p></div>
@@ -269,16 +269,13 @@ function boardOcc(x,r,c){for(const sw of ['red','blue'])for(const g of (x[sw].gs
 function dist(a,b){return Math.abs(a[0]-b[0])+Math.abs(a[1]-b[1])}
 function isRayClear(x,from,to){const d=dist(from,to);if(d<1||d>2||from[0]!==to[0]&&from[1]!==to[1])return false;if(d===2){const mid=[(from[0]+to[0])/2,(from[1]+to[1])/2];if(boardOcc(x,...mid))return false}return true}
 function isFlank(x,p){const attacker=x[p.attacker].gs[p.source],defender=x[p.defender].gs[p.target];return x[p.attacker].gs.some(g=>g.id!==attacker.id&&!g.defeated&&g.army.some(u=>u.hp>0)&&dist(g.position,defender.position)===1)}
-// 精鋭隊の「陣形連携」：配下の生存基本部隊で最も多い兵種の枚数 × 対応武将Lv。
- // 同数の兵種は武将Lvが高いものを採用。編成集中による一撃必勝を防ぐため最大＋6。
+// 精鋭隊「陣形連携」：同じ武将の生存基本部隊の最多兵種を数える。
+// 0枚＝＋0、1〜2枚＝＋1、3枚以上＝＋2。武将Lvによる乗算は行わない。
 function eliteFormationBonus(g){
- if(!g||!generals[g.gi])return 0;
+ if(!g)return 0;
  const types=['騎馬','鉄砲','槍'];
- const counts=types.map(t=>(g.army||[]).filter(u=>u.type===t&&u.hp>0).length);
- const maxCount=Math.max(...counts);
- if(maxCount===0)return 0;
- const best=counts.reduce((best,n,i)=>n===maxCount?Math.max(best,Math.max(0,Number(generals[g.gi].lv[i])||0)*n):best,0);
- return Math.min(6,best);
+ const maxCount=Math.max(0,...types.map(t=>(g.army||[]).filter(u=>u.type===t&&u.hp>0).length));
+ return maxCount===0?0:maxCount>=3?2:1;
 }
 function power(g,unit,enemy,loc,defending=false){
  const k=units.indexOf(unit.type),ek=units.indexOf(enemy.type),land=terrain(...loc);
@@ -324,7 +321,7 @@ const specialDetails=[
 ['🏹 弓兵','基本戦闘力2','森林で＋1。直線2マス以内に遠射。途中に武将がいると射撃不可。被弾部隊1ダメージ、反撃なし。','遠射は1ラウンド1回。武将の行動を消費する'],
 ['🥷 忍者','基本戦闘力1','山地で＋3。1試合1回、隣の敵を飛び越え直線2マス先の空きマスへ進軍。','忍び抜けは武将の行動を消費する'],
 ['📜 軍師','基本戦闘力0','同じ武将配下の部隊に戦闘力＋1。挟撃時に包囲看破を使い、通常戦闘へ戻せる。','包囲看破は1試合1回。軍師自身は通常戦闘をしない'],
-['⚔️ 精鋭隊','基本戦闘力3','陣形連携：同じ武将の生存基本部隊で最多兵種の枚数×その兵種の武将Lvを加算（最大＋6）。三すくみなし。挟撃防御は被害−1。','精鋭の一撃＋2は1試合1回。陣形連携は生存枚数に合わせて変化']
+['⚔️ 精鋭隊','基本戦闘力3','陣形連携：同じ武将の生存基本部隊で最多兵種が0枚なら＋0、1〜2枚なら＋1、3枚以上なら＋2。三すくみなし。挟撃防御は被害−1。','精鋭の一撃＋2は1試合1回。陣形連携は生存枚数に合わせて変化']
 ];
 function directoryTab(tab){document.querySelectorAll('[data-directory-tab]').forEach(b=>b.classList.toggle('on',b.dataset.directoryTab===tab));let list=$('directoryItems');if(tab==='generals'){list.innerHTML=generals.map((g,i)=>'<article class="directory-item"><h3>⚔️ '+escapeHtml(g.name)+'</h3><p class="statsline">騎馬Lv '+g.lv[0]+' ／ 鉄砲Lv '+g.lv[1]+' ／ 槍Lv '+g.lv[2]+' ／ HP '+g.hp+'</p><p><b>'+escapeHtml(generalDetails[i][0])+'：</b>'+escapeHtml(generalDetails[i][1])+'</p><p><b>必殺技：</b>'+escapeHtml(generalDetails[i][2])+'</p></article>').join('')}else{const info=tab==='basic'?basicDetails:specialDetails;list.innerHTML=info.map(u=>'<article class="directory-item"><h3>'+escapeHtml(u[0])+'</h3><p class="statsline">'+escapeHtml(u[1])+'</p><p>'+escapeHtml(u[2])+'</p><p class="mini">'+escapeHtml(u[3])+'</p></article>').join('')}}
 $('howto').onclick=()=>show('rules');
