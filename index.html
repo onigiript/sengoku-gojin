@@ -100,6 +100,21 @@
 .detail-footer{display:grid;gap:8px;margin-top:10px}
 .detail-footer button{width:100%}
 @media(max-width:360px){.battle-card{padding:11px 8px}.card-image-frame{height:120px}.pending-battle-stage .card-image-frame{height:96px}.general-stat b{font-size:16px}.room-controls button{padding:7px;font-size:10px}}
+
+/* 編成時の武将・兵種ガイド */
+.formation-info{margin-top:8px;padding:9px 10px;border-radius:8px;background:#142b24;border:1px solid #657258;line-height:1.45}
+.formation-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin-bottom:7px}
+.formation-stats span{display:block;border-radius:6px;background:#2e4b3e;text-align:center;font-size:12px;padding:5px 2px}
+.formation-stats strong{display:block;font-size:16px;color:#f5d492}
+.formation-info p{font-size:12px;margin:5px 0}
+.army-reference{margin:12px 0;border:1px solid #88794e;border-radius:9px;background:#183229;padding:10px}
+.army-reference summary{cursor:pointer;font-weight:700;color:#f6d38e}
+.unit-reference-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:7px;margin-top:10px}
+.unit-ref-card{border-radius:8px;background:#2b4939;border:1px solid #69805b;padding:9px}
+.unit-ref-card strong{color:#f7d798}
+.unit-ref-card p{font-size:12px;margin:4px 0}
+.allocate-line .allocate-hint{grid-column:1/-1;color:#d8d5ae;font-size:11px;line-height:1.4;padding:1px 0 4px 45px}
+@media(max-width:430px){.unit-reference-grid{grid-template-columns:1fr}.formation-stats span{font-size:11px}.allocate-line .allocate-hint{padding-left:12px}}
 </style></head><body><main class="title-mode"><header><h1>⚔️ 戦国五陣</h1></header>
 <section class="screen active title-screen" id="title"><div class="title-hero"><img class="title-art" src="sengoku_gojin_title_final.webp" onerror="this.onerror=null;this.src='title-photo.svg'" alt="夕焼けの戦国城と武将たちを描いた戦国五陣のイラスト"><div class="title-shade"></div><div class="title-content"><span class="title-eyebrow">天下を巡る、三軍の知略</span><h1 class="title-name">戦国五陣</h1><p class="title-subtitle">武将を率い、要所を制せ。</p><div class="title-menu"><button id="start" class="title-start">⚔️ 対戦をはじめる</button><button id="howto" class="title-secondary">📜 遊び方</button><button id="directory" class="title-tertiary">🏯 武将・部隊一覧</button></div><span class="title-foot">2台のスマホでオンライン対戦</span></div></div></section>
 <section class="screen" id="landing"><button id="backToTitle" class="secondary landing-back">← タイトルに戻る</button><div class="panel"><h2>オンライン対戦</h2><p>一人が対戦部屋を作り、もう一人が6桁の部屋番号で参加します。</p><div class="bar"><button id="create">対戦部屋を作る</button><input id="code" inputmode="numeric" maxlength="6" placeholder="6桁の部屋番号" aria-label="部屋番号"><button class="secondary" id="join">参加する</button></div><p id="landingError" class="alert"></p></div></section>
@@ -109,7 +124,7 @@
 <div class="panel"><h3>🔄 手番と進軍</h3><p>先攻・後攻は試合ごとにランダム抽選。1ラウンドに両軍が交互に3回ずつ行動し、次ラウンドは先手が交代します。各武将が行動できるのは1ラウンドにつき1回です。</p><p>自分の武将をタップし、上下左右の隣の空きマスをタップすると進軍します。武将を選んで「その場で待機」もできます。敵武将のマスをタップすると合戦を仕掛けます。</p></div>
 <div class="panel"><h3>🛡️ 合戦のしくみ</h3><p>攻撃側が部隊を選び、次に防御側が部隊を選びます。戦闘力は兵種の基本値＋武将の対応Lv＋三すくみ＋地形補正＋能力補正で計算します。</p><div class="info-row">🐎 騎馬 → 槍に強い<br>🛡️ 槍 → 鉄砲に強い<br>💥 鉄砲 → 騎馬に強い</div><p>有利なら＋2、不利なら−2です。通常戦闘のダメージは勝者1・敗者2、引き分けなら双方1です。部隊のHPが0になると敗走。率いる部隊が全滅すると武将が撃破されます。</p></div>
 <div class="panel"><h3>⚡ 挟撃B</h3><p>攻撃する武将のほかに、敵の上下左右に隣接する味方武将がいると挟撃成立です。一直線の挟み込みだけでなく、L字型も対象です。原則として攻撃側は無傷で勝利し、防御側は2ダメージを受けます。</p><p>ただし本多忠勝は最初の挟撃を「蜻蛉切」で通常戦闘に戻し、以後の挟撃では被害を軽減します。</p></div>
-<div class="panel"><h3>⛰️ 地形と特殊能力</h3><p>地形には山地・森林・平野・参道・退き口・要所があります。退き口は両軍とも自陣から見て左側の参道位置にあります。兵種によって得意な地形が異なります。武将と特殊部隊の能力は「武将・部隊一覧」で確認できます。</p><p>🏹弓兵：遠射。🥷忍者：敵越え進軍。📜軍師：戦闘力＋1と包囲看破。⚔️精鋭隊：同じ武将の基本部隊の最多兵種が1〜2枚なら＋1、3枚以上なら＋2（生存部隊のみ）。精鋭の一撃と挟撃被害軽減も使用できます。</p><p>徳川家康の「堅陣」「三河武士の踏ん張り」も利用可能です。</p><p class="mini">※ほかの武将の一部必殺技はまだ未実装です。ゲーム内に表示される発動ボタンが実際に使用できる能力です。</p></div></section>
+<div class="panel"><h3>⛰️ 地形と特殊能力</h3><p>地形には山地・森林・平野・参道・退き口・要所があります。退き口は両軍とも自陣から見て左側の参道位置にあります。基本部隊は騎馬＝平野＋1、槍＝参道・山地・森林＋1、鉄砲＝退き口・要所＋1。騎馬の山地−1、鉄砲の森林−1も残ります。特殊部隊にも個別の能力と地形補正があります。武将と特殊部隊の能力は「武将・部隊一覧」で確認できます。</p><p>🏹弓兵：遠射。🥷忍者：敵越え進軍。📜軍師：戦闘力＋1と包囲看破。⚔️精鋭隊：同じ武将の基本部隊の最多兵種が1〜2枚なら＋1、3枚以上なら＋2（生存部隊のみ）。精鋭の一撃と挟撃被害軽減も使用できます。</p><p>徳川家康の「堅陣」「三河武士の踏ん張り」も利用可能です。</p><p class="mini">※ほかの武将の一部必殺技はまだ未実装です。ゲーム内に表示される発動ボタンが実際に使用できる能力です。</p></div></section>
 <section class="screen info-screen" id="catalog"><div class="info-top"><button class="secondary info-back">← タイトルに戻る</button><h2>🏯 武将・部隊一覧</h2></div><div class="directory-tabs"><button class="on" data-directory-tab="generals">武将7名</button><button data-directory-tab="basic">基本部隊</button><button data-directory-tab="special">特殊部隊</button></div><div id="directoryItems"></div></section>
 <section class="screen" id="game"><div class="panel"><div class="row"><div><span class="badge" id="roomLabel">部屋</span> <span class="mini" id="roleLabel"></span></div><div class="room-controls"><button class="secondary" id="copy">部屋番号をコピー</button></div></div><div class="status" id="headline">対戦相手を待っています…</div><div id="setup" class="hidden"><h2>出陣編成</h2><p class="mini">左・中・右の武将を選び、10枚すべてを配属。基本部隊9枚＋特殊部隊1枚。各武将に最低1枚。部隊数は合戦まで相手に秘密です。</p><div id="formation"></div><label>大将 <select id="chief"></select></label><div id="allocation"></div><p id="formationStatus" class="mini"></p><button id="ready">この編成で出陣</button></div></div>
 <div id="pendingBattleStage" class="panel pending-battle-stage hidden" aria-live="polite"></div><div class="panel"><div class="row"><span id="redName" class="side">赤軍</span><span id="turnLabel" class="badge">第1ラウンド</span><span id="blueName" class="side blue">青軍</span></div><div style="height:9px"></div><div id="board" class="board"></div><p class="mini">赤軍は下から、青軍は上から。左右の武将は山地スタート。退き口は各軍から見て左の参道に移動しました（赤軍：下段左側、青軍：上段右側）。黄色いマスの左（上から4行目）・中央・右（上から2行目）の3要所をすべて制圧すると即勝利。相手の武将名・部隊数は初めて合戦（遠射を含む）するまで秘密です。ただし大将は双方に👑で表示します。配下の部隊が全滅した武将は盤面から消えます。自軍の武将を選んで隣のマスを押します。</p></div>
@@ -134,11 +149,33 @@ function createState(uid,code){const toss=new Uint32Array(1);crypto.getRandomVal
 function makeGs(side,f){let cols=[0,3,6],r=side==='red'?4:0;f=f||{chosen:[0,1,2],armies:[['騎馬','騎馬','槍','騎馬'],['鉄砲','鉄砲','軍師'],['槍','槍','鉄砲']]};return f.chosen.map((gi,i)=>({id:i,gi,position:[r,cols[i]],revealed:false,numberRevealed:false,acted:false,hondaGuardUsed:false,ninjaUsed:false,strategistUsed:false,tenacityUsed:false,army:f.armies[i].map(type=>({type,hp:generals[gi].hp,used:false,burstUsed:false}))}))}
 let db=null,auth=null,uid=null,room=null,side=null,unsub=null,state=null,sel=null,demo=false,local=null,formInit=false,specialMode=null,attackTarget=null,counterChoice=false,counterKey='',seenBattleKey='',seenEffectKey='',spriteLoaded=false;
 const positions=['左','中','右'];
+const unitGuides={
+ '騎馬':{icon:'🐎',base:'2＋騎馬Lv',good:'平野＋1',bad:'山地−1',trait:'槍に強い（＋2）／鉄砲に弱い（−2）'},
+ '鉄砲':{icon:'💥',base:'2＋鉄砲Lv',good:'退き口・要所＋1',bad:'森林−1',trait:'騎馬に強い（＋2）／槍に弱い（−2）'},
+ '槍':{icon:'🛡️',base:'2＋槍Lv',good:'参道・山地・森林＋1',bad:'なし',trait:'鉄砲に強い（＋2）／騎馬に弱い（−2）'},
+ '弓兵':{icon:'🏹',base:'2',good:'森林＋1',bad:'なし',trait:'遠射（直線2マス・反撃なし）、1ラウンド1回'},
+ '忍者':{icon:'🥷',base:'1',good:'山地＋3',bad:'なし',trait:'忍び抜け（敵を飛び越える）、1試合1回'},
+ '軍師':{icon:'📜',base:'0',good:'地形補正なし',bad:'なし',trait:'同じ武将の味方戦闘力＋1、挟撃無効化を1試合1回'},
+ '精鋭隊':{icon:'⚔️',base:'3',good:'陣形連携＋0〜2',bad:'なし',trait:'三すくみなし。精鋭の一撃＋2（1試合1回）、挟撃被害−1'}
+};
+function showFormationGuides(f){
+ for(const [i,block] of [...document.querySelectorAll('.formation-army')].entries()){
+  const g=generals[f.chosen[i]],details=generalDetails[f.chosen[i]],target=block.querySelector('.formation-info');
+  if(!g||!target)continue;
+  target.innerHTML='<div class="formation-stats">'+[['騎馬',g.lv[0]],['鉄砲',g.lv[1]],['槍',g.lv[2]],['HP',g.hp]].map(([k,v])=>'<span>'+k+'<strong>'+v+'</strong></span>').join('')+'</div><p><b>'+escapeHtml(details[0])+'</b>：'+escapeHtml(details[1])+'</p><p><b>必殺技：</b>'+escapeHtml(details[2])+'</p><p class="mini">※一部の必殺技は開発中です。配属 '+f.armies[i].length+'枚</p>';
+ }
+ const selected=[...document.querySelectorAll('.allocate-type')];
+ document.querySelectorAll('.allocate-line').forEach((row,i)=>{
+  const g=unitGuides[selected[i]?.value],hint=row.querySelector('.allocate-hint');
+  if(g&&hint)hint.textContent=g.icon+' 戦闘力 '+g.base+'｜'+g.good+'｜'+g.trait;
+ });
+}
+
 function fillSel(el,options,value){el.innerHTML=options.map(([v,label])=>'<option value="'+v+'"'+(String(v)===String(value)?' selected':'')+'>'+label+'</option>').join('')}
-function buildForm(){if(formInit)return;formInit=true;const root=$('formation');root.innerHTML='';const defaults=side==='blue'?[2,3,5]:[0,1,4];for(let i=0;i<3;i++){const block=document.createElement('div');block.className='formation-army';block.innerHTML='<b>'+positions[i]+'の武将</b>　<label><select class="pick-general"></select></label>';root.append(block);fillSel(block.querySelector('select'),generals.map((g,j)=>[j,g.name+' 騎'+g.lv[0]+'/鉄'+g.lv[1]+'/槍'+g.lv[2]+'/HP'+g.hp]),defaults[i]);}fillSel($('chief'),positions.map((v,i)=>[i,v+'の武将']),0);
-const allocation=$('allocation');allocation.innerHTML='<h3 style="font-size:15px;margin:14px 0 6px">部隊カード10枚の配属</h3><p class="mini">各カードの兵種と配属先を選びます。</p>';const types=['騎馬','騎馬','槍','鉄砲','鉄砲','軍師','槍','槍','騎馬','鉄砲'],who=[0,0,0,1,1,1,2,2,2,0];for(let i=0;i<10;i++){const line=document.createElement('div');line.className='allocate-line';line.innerHTML='<span>'+(i+1)+'枚目</span><select class="allocate-type" aria-label="'+(i+1)+'枚目の兵種"></select><span>→</span><select class="allocate-to" aria-label="'+(i+1)+'枚目の配属先"></select>';allocation.append(line);fillSel(line.querySelector('.allocate-type'),units.map(u=>[u,u]),types[i]);fillSel(line.querySelector('.allocate-to'),positions.map((v,j)=>[j,v+'の武将']),who[i])}document.querySelectorAll('#setup select').forEach(e=>e.addEventListener('change',validateForm));validateForm()}
+function buildForm(){if(formInit)return;formInit=true;const root=$('formation');root.innerHTML='';const defaults=side==='blue'?[2,3,5]:[0,1,4];for(let i=0;i<3;i++){const block=document.createElement('div');block.className='formation-army';block.innerHTML='<b>'+positions[i]+'の武将</b>　<label><select class="pick-general"></select></label><div class="formation-info" aria-live="polite"></div>';root.append(block);fillSel(block.querySelector('select'),generals.map((g,j)=>[j,g.name+' 騎'+g.lv[0]+'/鉄'+g.lv[1]+'/槍'+g.lv[2]+'/HP'+g.hp]),defaults[i]);}fillSel($('chief'),positions.map((v,i)=>[i,v+'の武将']),0);
+const allocation=$('allocation');allocation.innerHTML='<h3 style="font-size:15px;margin:14px 0 6px">部隊カード10枚の配属</h3><p class="mini">各カードの兵種と配属先を選びます。選んだ兵種の効果は行の下に表示されます。</p><details class="army-reference"><summary>📖 全7種類の部隊特性・地形補正を見る</summary><div class="unit-reference-grid">'+Object.entries(unitGuides).map(([name,g])=>'<article class="unit-ref-card"><strong>'+g.icon+' '+name+'</strong><p>基本戦闘力：'+g.base+'</p><p>有利な場所：'+g.good+'</p><p>苦手な場所：'+g.bad+'</p><p>'+g.trait+'</p></article>').join('')+'</div></details>';const types=['騎馬','騎馬','槍','鉄砲','鉄砲','軍師','槍','槍','騎馬','鉄砲'],who=[0,0,0,1,1,1,2,2,2,0];for(let i=0;i<10;i++){const line=document.createElement('div');line.className='allocate-line';line.innerHTML='<span>'+(i+1)+'枚目</span><select class="allocate-type" aria-label="'+(i+1)+'枚目の兵種"></select><span>→</span><select class="allocate-to" aria-label="'+(i+1)+'枚目の配属先"></select><small class="allocate-hint"></small>';allocation.append(line);fillSel(line.querySelector('.allocate-type'),units.map(u=>[u,u]),types[i]);fillSel(line.querySelector('.allocate-to'),positions.map((v,j)=>[j,v+'の武将']),who[i])}document.querySelectorAll('#setup select').forEach(e=>e.addEventListener('change',validateForm));validateForm()}
 function collectForm(){const chosen=Array.from(document.querySelectorAll('.pick-general')).map(e=>Number(e.value)),armies=[[],[],[]];const types=Array.from(document.querySelectorAll('.allocate-type')),targets=Array.from(document.querySelectorAll('.allocate-to'));types.forEach((el,i)=>armies[Number(targets[i].value)].push(el.value));return {chosen,armies,chief:Number($('chief').value)}}
-function validateForm(){let f=collectForm(),all=f.armies.flat(),basic=all.filter(x=>['騎馬','鉄砲','槍'].includes(x)).length,special=all.length-basic,unique=new Set(f.chosen).size===3,counts=f.armies.map(a=>a.length),ok=all.length===10&&basic===9&&special===1&&unique&&counts.every(n=>n>=1)&&f.armies.every(a=>a.some(u=>u!=='軍師'));$('formationStatus').textContent='基本 '+basic+'/9・特殊 '+special+'/1　｜　左'+counts[0]+'枚・中'+counts[1]+'枚・右'+counts[2]+'枚'+(!unique?'　※武将の重複不可':'')+(counts.some(n=>n<1)?'　※各武将に1枚以上必要':'')+(f.armies.some(a=>a.every(u=>u==='軍師'))?'　※軍師のみの編成は不可':'')+(ok?'　✅ 編成OK':'　※枚数を調整');$('ready').disabled=!ok;return ok}
+function validateForm(){let f=collectForm(),all=f.armies.flat(),basic=all.filter(x=>['騎馬','鉄砲','槍'].includes(x)).length,special=all.length-basic,unique=new Set(f.chosen).size===3,counts=f.armies.map(a=>a.length),ok=all.length===10&&basic===9&&special===1&&unique&&counts.every(n=>n>=1)&&f.armies.every(a=>a.some(u=>u!=='軍師'));$('formationStatus').textContent='基本 '+basic+'/9・特殊 '+special+'/1　｜　左'+counts[0]+'枚・中'+counts[1]+'枚・右'+counts[2]+'枚'+(!unique?'　※武将の重複不可':'')+(counts.some(n=>n<1)?'　※各武将に1枚以上必要':'')+(f.armies.some(a=>a.every(u=>u==='軍師'))?'　※軍師のみの編成は不可':'')+(ok?'　✅ 編成OK':'　※枚数を調整');$('ready').disabled=!ok;showFormationGuides(f);return ok}
 function initFirebase(){if(!window.FIREBASE_CONFIG || !window.FIREBASE_CONFIG.apiKey || window.FIREBASE_CONFIG.apiKey.includes('ここに'))throw Error('firebase-config.js を設定してください');if(!firebase.apps.length)firebase.initializeApp(window.FIREBASE_CONFIG);db=firebase.database();auth=firebase.auth();return auth.signInAnonymously().then(x=>{uid=x.user.uid})}
 async function write(mutator){if(demo){const copy=structuredClone(local);const next=mutator(copy);if(!next)return;local=next;state=local;render();return}const result=await db.ref('rooms/'+room).transaction(old=>{if(!old)return;return mutator(old)},undefined,false);if(!result.committed)throw Error('処理できませんでした。画面の最新状態を確認してください。')}
 async function enter(mode){try{$('landingError').textContent='接続しています…';if(mode==='demo'){demo=true;uid='test-user';room='DEMO';side='red';local=createState(uid,room);local.blue={uid:'demo-opponent',ready:true,chief:2,gs:makeGs('blue'),reserve:'槍'};local.red.gs=makeGs('red');local.red.ready=true;state=local;show('game');render();return}
@@ -277,12 +314,21 @@ function eliteFormationBonus(g){
  const maxCount=Math.max(0,...types.map(t=>(g.army||[]).filter(u=>u.type===t&&u.hp>0).length));
  return maxCount===0?0:maxCount>=3?2:1;
 }
+// 同一の地形補正は攻撃・防御の双方に適用する。
+function terrainBattleBonus(type,land){
+ if(type==='騎馬')return land==='plain'?1:land==='mountain'?-1:0;
+ if(type==='鉄砲')return land==='gate'||land==='objective'?1:land==='forest'?-1:0;
+ if(type==='槍')return ['sando','mountain','forest'].includes(land)?1:0;
+ if(type==='弓兵')return land==='forest'?1:0;
+ if(type==='忍者')return land==='mountain'?3:0;
+ return 0;
+}
 function power(g,unit,enemy,loc,defending=false){
  const k=units.indexOf(unit.type),ek=units.indexOf(enemy.type),land=terrain(...loc);
  const base=k===5?0:k===6?3:k===4?1:2;
  const lv=k<3?generals[g.gi].lv[k]:0;
  const adv=k>2||ek>2||k===ek?0:((k===0&&ek===2)||(k===1&&ek===0)||(k===2&&ek===1))?2:-2;
- const landBoost=(land==='plain'&&k===0?1:land==='mountain'&&k===4?3:land==='mountain'&&(k===0||k===1)?-1:land==='forest'&&k===1?-1:land==='forest'&&k===3?1:0);
+ const landBoost=terrainBattleBonus(unit.type,land);
  let skill=g.gi===0&&k===0&&land==='plain'?1:0;
  if(k!==5&&hasAlive(g,'軍師'))skill++;
  if(defending&&g.gi===2&&k===2)skill+=1+(land==='objective'?1:0);
@@ -314,8 +360,8 @@ const generalDetails=[
 ];
 const basicDetails=[
 ['🐎 騎馬隊','基本戦闘力2','槍隊に強く、鉄砲隊に弱い。平野では＋1。','武将の騎馬Lvを加算'],
-['💥 鉄砲隊','基本戦闘力2','騎馬隊に強く、槍隊に弱い。森林では−1。','武将の鉄砲Lvを加算'],
-['🛡️ 槍隊','基本戦闘力2','鉄砲隊に強く、騎馬隊に弱い。','武将の槍Lvを加算']
+['💥 鉄砲隊','基本戦闘力2','騎馬隊に強く、槍隊に弱い。退き口・要所では＋1、森林では−1。','武将の鉄砲Lvを加算'],
+['🛡️ 槍隊','基本戦闘力2','鉄砲隊に強く、騎馬隊に弱い。参道・山地・森林では＋1。','武将の槍Lvを加算']
 ];
 const specialDetails=[
 ['🏹 弓兵','基本戦闘力2','森林で＋1。直線2マス以内に遠射。途中に武将がいると射撃不可。被弾部隊1ダメージ、反撃なし。','遠射は1ラウンド1回。武将の行動を消費する'],
