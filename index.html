@@ -394,7 +394,7 @@ function showMatchResult(s){
  image.classList.remove('hidden');
  image.onload=()=>{image.classList.remove('hidden');fallback.classList.add('hidden')};
  image.onerror=()=>{image.classList.add('hidden');fallback.classList.remove('hidden')};
- image.src=won?'victory_screen.webp':'defeat_screen.webp';
+ image.src=won?'victory_screen.webp':'無念、敗走… 戦国の黄昏.png';
  image.alt=title;
  $('matchResultReason').textContent=s.reason||'決着！';
  $('matchResultPopup').classList.remove('hidden');
